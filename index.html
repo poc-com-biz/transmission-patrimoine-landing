@@ -61,11 +61,6 @@ button.calc:hover{background:#a3824d;}
 button.ghost{background:transparent;border:1px solid #3d4c61;color:#b9c6d4;}
 .step{display:none;}
 .step.on{display:block;}
-#result table{width:100%;border-collapse:collapse;margin-top:8px;}
-#result td,#result th{padding:10px 8px;border-bottom:1px solid #3d4c61;text-align:left;font-size:15px;}
-#result th{color:#b9c6d4;font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.5px;}
-#result .val{font-family:Georgia,serif;font-size:19px;}
-.gain{margin-top:18px;padding:14px 16px;background:rgba(46,110,78,.25);border-radius:8px;font-size:15px;}
 .recap{margin-top:20px;border:1px solid #3d4c61;border-radius:10px;padding:18px 20px;}
 .recap .row{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid #3d4c61;font-size:15px;color:#b9c6d4;}
 .recap .row:last-of-type{border-bottom:0;}
@@ -87,6 +82,12 @@ footer .legal{margin-top:16px;font-size:11.5px;color:#8a94a3;max-width:720px;}
 .modal p{color:#4a5a70;font-size:15px;margin-bottom:24px;}
 .modal button{padding:12px 32px;border:0;border-radius:6px;background:#1a2433;color:#fff;font-size:15px;font-weight:600;cursor:pointer;}
 .err{color:#e0a0a0;font-size:13px;margin-top:8px;display:none;}
+.trustcard{border-left:3px solid var(--accent);}
+.pill{display:inline-block;font-size:12px;letter-spacing:.5px;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);border-radius:20px;padding:4px 12px;margin-bottom:14px;}
+.about{display:grid;gap:32px;margin-top:36px;}
+@media(min-width:800px){.about{grid-template-columns:1fr 1fr;align-items:center;}}
+.about .quote{font-family:Georgia,serif;font-size:22px;line-height:1.45;color:var(--ink);}
+.about .who{margin-top:16px;font-size:15px;color:var(--ink-soft);}
 </style>
 </head>
 <body>
@@ -180,6 +181,36 @@ footer .legal{margin-top:16px;font-size:11.5px;color:#8a94a3;max-width:720px;}
 
 <section>
 <div class="wrap">
+<h2>Qui est derrière TransmettreClair ?</h2>
+<div class="about">
+<div>
+<p class="quote">La transmission familiale est un sujet que la loi rend complexe, et que l'émotion rend tabou. Notre travail est de traduire le premier pour désamorcer la seconde.</p>
+<p class="who">TransmettreClair est développé en France, par une petite équipe fondatrice qui a vécu la question dans sa propre famille avant d'en faire un outil.</p>
+</div>
+<div>
+<div class="card trustcard">
+<h3>Indépendants des acteurs du patrimoine</h3>
+<p>Nous ne vendons aucun produit financier, immobilier ou d'assurance. Aucune commission d'assureur, de banque ou de notaire n'oriente nos scénarios : notre seul business model est l'outil lui-même.</p>
+</div>
+</div>
+</div>
+<p class="lead" style="margin-top:28px">Service en phase de lancement : nous construisons le dossier de scénarios avec les premières familles testeurs, et leurs retours façonnent l'outil. Si la proposition vous parle avant les autres, vous en profitez dès le départ &mdash; et vous nous dites ce qui cloche.</p>
+</div>
+</section>
+
+<section>
+<div class="wrap">
+<h2>Ce que nous garantissons</h2>
+<div class="grid g3">
+<div class="card trustcard"><h3>Vos données restent chez nous</h3><p>Un seul champ obligatoire : votre email. Aucune revente, aucun partage avec des tiers, aucune prospection externe. Désinscription immédiate en un clic dans chaque email.</p></div>
+<div class="card trustcard"><h3>Les chiffres, pas le jargon</h3><p>Chaque estimation affiche ses hypothèses en clair, juste en dessous. Vous savez toujours ce qui est calculé, ce qui est estimé, et ce qui demande un professionnel du droit.</p></div>
+<div class="card trustcard"><h3>Nous ne vendons pas de conseil</h3><p>Nous préparons la discussion en famille et le rendez-vous notarial. Nous ne nous substituons ni au notaire, ni à l'avocat fiscaliste : le dossier sert à mieux les consulter.</p></div>
+</div>
+</div>
+</section>
+
+<section>
+<div class="wrap">
 <h2>Ce que contient le dossier</h2>
 <p class="lead">Un dossier de scénarios complets, en langage clair, pensé pour être remis entre les mains de vos parents.</p>
 <div class="grid g3">
@@ -198,12 +229,13 @@ footer .legal{margin-top:16px;font-size:11.5px;color:#8a94a3;max-width:720px;}
 <details><summary>L'assurance-vie est-elle soumise aux droits de succession ?</summary><p>Le bénéficiaire désigné bénéficie d'un abattement de 152 500 euros, puis d'une taxation forfaitaire de 20 % jusqu'à 852 500 euros et 31,25 % au-delà, hors part du conjoint survivant. Ce régime dépend de l'âge de souscription et de la date des versements.</p></details>
 <details><summary>Faut-il obligatoirement un notaire pour préparer une transmission ?</summary><p>Oui dès qu'un bien immobilier est transmis. En amont, préparer les scénarios et chiffres permet d'arriver au rendez-vous avec des questions précises, de réduire le nombre de consultations et de conserver la maîtrise du calendrier familial.</p></details>
 <details><summary>Le simulateur remplace-t-il un conseil juridique ou fiscal ?</summary><p>Non. Les résultats sont des estimations indicatives destinées à préparer la discussion en famille et le rendez-vous notarial. Les décisions se prennent toujours avec un professionnel, notaire ou avocat fiscaliste.</p></details>
+<details><summary>Que faites-vous de mon email et des montants saisis ?</summary><p>Ils servent uniquement à produire et vous envoyer votre dossier de scénarios. Aucune donnée n'est vendue ou transmise à des tiers : ni assureurs, ni banques, ni notaires. La désinscription est immédiate depuis chaque email reçu.</p></details>
 </div>
 </section>
 
 <footer>
 <div class="wrap">
-<div>TransmettreClair &mdash; Simulateur de transmission patrimoniale entre générations</div>
+<div>TransmettreClair &mdash; Simulateur de transmission patrimoniale entre générations, développé en France.</div>
 <p class="legal">Les estimations fournies sont indicatives et reposent sur le barème 2026 des droits de mutation à titre gratuit. Elles ne constituent ni un conseil juridique ni un conseil fiscal et ne remplacent pas la consultation d'un notaire ou d'un avocat fiscaliste. Les données collectées via le questionnaire servent uniquement à produire et vous envoyer vos scénarios.</p>
 </div>
 </footer>
