@@ -47,7 +47,6 @@ h2{font-family:Georgia,serif;font-size:30px;margin-bottom:16px;font-weight:600;}
 .dark{background:var(--ink);color:#eef2f6;}
 .dark h2,.dark .lead{color:#fff;}
 .dark .lead{color:#b9c6d4;}
-.simbox{background:#263hero;}
 #sim{max-width:720px;margin:36px auto 0;background:#243040;border-radius:12px;padding:32px;}
 #sim label{display:block;margin:18px 0 6px;font-size:14px;color:#b9c6d4;}
 #sim input,#sim select{width:100%;padding:12px;border-radius:6px;border:1px solid #3d4c61;background:#1a2433;color:#fff;font-size:16px;}
@@ -99,7 +98,7 @@ footer .legal{margin-top:16px;font-size:11.5px;color:#8a94a3;max-width:720px;}
 <div class="grid g3">
 <div class="card"><span class="num">1</span><h3>Vous ne savez pas ce que ça coûtera</h3><p>Les barèmes croissent fortement au-delà des abattements. Sans simulation, les décisions se prennent à l'aveugle, au moment de la succession.</p></div>
 <div class="card"><span class="num">2</span><h3>Le sujet reste non dit</h3><p>Aborder l'argent et la mort avec ses parents est difficile. Des chiffres neutres donnent un prétexte concret à la conversation, sans poser de questions déplacées.</p></div>
-<div class="card"><span class="num">3</span><h3>Le notaire cadre, il n'axe pas</h3><p>Le rendez-vous notarial vaut mieux quand on arrive avec des scenarii déjà comparés et des questions précises, au lieu de repartir avec une liste de décisions à revoir.</p></div>
+<div class="card"><span class="num">3</span><h3>Le notaire formalise, il ne décide pas</h3><p>Le rendez-vous notarial vaut mieux quand on arrive avec des scénarios déjà comparés et des questions précises, au lieu de repartir avec une liste de décisions à revoir.</p></div>
 </div>
 </div>
 </section>
@@ -129,7 +128,7 @@ footer .legal{margin-top:16px;font-size:11.5px;color:#8a94a3;max-width:720px;}
 
 <section>
 <div class="wrap">
-<h2>Éviter de payer des droits plus tard</h2>
+<h2>Ce que contient le dossier</h2>
 <p class="lead">Un dossier de scénarios complets, en langage clair, pensé pour être remis entre les mains de vos parents.</p>
 <div class="grid g3">
 <div class="card"><h3>Scénarios chiffrés</h3><p>Succession, donation anticipée, démembrement, assurance-vie : chaque option est comparée en coûts, délais et protection de chacun.</p></div>
@@ -180,7 +179,7 @@ footer .legal{margin-top:16px;font-size:11.5px;color:#8a94a3;max-width:720px;}
 <footer>
 <div class="wrap">
 <div>TransmettreClair &mdash; Simulateur de transmission patrimoniale entre générations</div>
-<p class="legal">Les estimations fournies sont indicatives et reposés sur le barème 2026 des droits de mutation à titre gratuit. Elles ne constituent ni un conseil juridique ni un conseil fiscal et ne remplacent pas la consultation d'un notaire ou d'un avocat fiscaliste. Les données collectées via le formulaire servent uniquement à vous donner accès au simulateur.</p>
+<p class="legal">Les estimations fournies sont indicatives et reposent sur le barème 2026 des droits de mutation à titre gratuit. Elles ne constituent ni un conseil juridique ni un conseil fiscal et ne remplacent pas la consultation d'un notaire ou d'un avocat fiscaliste. Les données collectées via le formulaire servent uniquement à vous donner accès au simulateur.</p>
 </div>
 </footer>
 
@@ -197,17 +196,14 @@ function calculer(){
   var e=+document.getElementById('enf').value;
   var t1=0,t2=0;
   for(var i=0;i<e;i++){var part=Math.max(0,(p-100000*e)/e);t1+=droits(part);}
-  // scenario donation 2 vagues (abattement renouvelle une fois) : chaque vague e*100k transmis sans droits au-dela s'il reste du solicite
-  var deja=0,reste=p;
-  for(var v=0;v<2;v++){
-    var abat=Math.min(reste,100000*e);
-    reste-=abat;
-  }
+  // scenario donation en 2 vagues : abattement renouvelle une fois
+  var reste=p;
+  for(var v=0;v<2;v++){reste-=Math.min(reste,100000*e);}
   if(reste>0){for(var j=0;j<e;j++){t2+=droits(reste/e);}}
   document.getElementById('s1').textContent=fmt(t1);
   document.getElementById('s2').textContent=fmt(t2);
   var sauve=t1-t2;
-  document.getElementById('gain').textContent=sauve>0?('Économie indicative de '+fmt(sauve)+' grâce à l’anticipation (enneig abattement renouvelé une fois).'):'L’abattement couvre déjà la majeure partie du patrimoine : l’anticipation a moins d’impact.';
+  document.getElementById('gain').textContent=sauve>0?('Économie indicative de '+fmt(sauve)+' grâce à l’anticipation (abattement renouvelé une fois).'):'L’abattement couvre déjà la majeure partie du patrimoine : l’anticipation a moins d’impact.';
   document.getElementById('result').style.display='block';
 }
 </script>
