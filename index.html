@@ -14,7 +14,7 @@
     {"@type": "Question", "name": "Quelle est la différence entre une donation et une succession ?", "acceptedAnswer": {"@type": "Answer", "text": "La donation transmet un bien du vivant des parents, avec un abattement renouvelable tous les 15 ans. La succession intervient au décès et s'applique à la masse restante. Combiner les deux permet de réduire sensiblement les droits totaux."}},
     {"@type": "Question", "name": "L'assurance-vie est-elle soumise aux droits de succession ?", "acceptedAnswer": {"@type": "Answer", "text": "Hors part matrimoniale légale, le bénéficiaire désigné supporte une taxation forfaitaire après un abattement de 152 500 euros, avec des taux de 20 % puis 31,25 % au-delà. Le régime dépend de l'âge de souscription et de la date des versements."}},
     {"@type": "Question", "name": "Faut-il obligatoirement un notaire pour préparer une transmission ?", "acceptedAnswer": {"@type": "Answer", "text": "Un notaire est obligatoire dès qu'un bien immobilier est transmis. En amont, préparer les scénarios et les chiffres permet d'arriver au rendez-vous avec des questions précises et de réduire le nombre de consultations."}},
-    {"@type": "Question", "name": "Le simulateur remplace-t-il un conseil juridique ou fiscal ?", "acceptedAnswer": {"@type": "Answer", "text": "Non. Le simulateur produit des estimations indicateives pour préparer la discussion en famille et le rendez-vous notarial. Il ne constitue ni un conseil juridique ni un conseil fiscal."}}
+    {"@type": "Question", "name": "Le simulateur remplace-t-il un conseil juridique ou fiscal ?", "acceptedAnswer": {"@type": "Answer", "text": "Non. Le simulateur produit des estimations indicatives pour préparer la discussion en famille et le rendez-vous notarial. Il ne constitue ni un conseil juridique ni un conseil fiscal."}}
   ]
 }
 </script>
@@ -66,6 +66,12 @@ button.ghost{background:transparent;border:1px solid #3d4c61;color:#b9c6d4;}
 #result th{color:#b9c6d4;font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.5px;}
 #result .val{font-family:Georgia,serif;font-size:19px;}
 .gain{margin-top:18px;padding:14px 16px;background:rgba(46,110,78,.25);border-radius:8px;font-size:15px;}
+.recap{margin-top:20px;border:1px solid #3d4c61;border-radius:10px;padding:18px 20px;}
+.recap .row{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid #3d4c61;font-size:15px;color:#b9c6d4;}
+.recap .row:last-of-type{border-bottom:0;}
+.recap .row b{font-family:Georgia,serif;font-size:19px;color:#fff;font-weight:600;}
+.recap .hint{margin-top:10px;font-size:13px;color:#8fa0b3;}
+.bigsave{color:#7fd6a8;}
 .disc{margin-top:16px;font-size:12.5px;color:#8fa0b3;}
 details{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:18px 22px;margin-top:14px;}
 details summary{font-weight:600;cursor:pointer;}
@@ -120,20 +126,18 @@ footer .legal{margin-top:16px;font-size:11.5px;color:#8a94a3;max-width:720px;}
 <label for="enf">Nombre d'enfants dans la fratrie</label>
 <select id="enf" name="enfants"><option value="1">1</option><option value="2" selected>2</option><option value="3">3</option><option value="4">4 ou plus</option></select>
 <button type="button" class="calc" onclick="aller(2)">Calculer les droits</button>
-<div id="result" style="display:none">
-<table>
-<tr><th>Scénario (couple parental, 2 enfants)</th><th>Droits estimés</th></tr>
-<tr><td id="lbl-l1">Succession sans anticipation</td><td class="val" id="s1"></td></tr>
-<tr><td>Avec anticipation maximale (donations, assurance-vie, dons familiaux)</td><td class="val" id="s2"></td></tr>
-</table>
-<div class="gain" id="gain"></div>
-</div>
 <p class="disc">Estimation indicative : barème 2026 des droits de mutation à titre gratuit, hypothèse d'un couple parental (deux abattements de 100 000 euros par enfant, renouvelables tous les 15 ans). L'anticipation maximale combine le roulement des donations espacées de 15 ans, l'assurance-vie hors succession (152 500 euros par bénéficiaire, conditions de souscription) et les dons familiaux de sommes d'argent (31 865 euros). Ne tient pas compte du démembrement, des spécificités (régime matrimonial, biens professionnels), des donations déjà réalisées, ni des frais d'acte. Plafond optimal, pas une promesse : dépend des conditions fiscales et du calendrier familial. Ne constitue ni un conseil juridique ni un conseil fiscal.</p>
 </div>
 
 <div class="step" id="etape2">
-<p class="step-title">Étape 2 / 3 &mdash; Où envoyer vos scénarios</p>
-<label for="email">Votre email</label>
+<p class="step-title">Étape 2 / 3 &mdash; Vos résultats</p>
+<div class="recap">
+<div class="row"><span>Droits estimés sans anticipation</span><b id="r2-s1"></b></div>
+<div class="row"><span>Avec anticipation maximale</span><b id="r2-s2"></b></div>
+<div class="row"><span>Économie potentielle</span><b class="bigsave" id="r2-gain"></b></div>
+<p class="hint">Estimations indicatives (barème 2026, couple parental). Le dossier détaillé chiffre chaque scénario pour votre famille : démembrement, assurance-vie, donation-partage, calendrier des donations.</p>
+</div>
+<label for="email">Où envoyer vos scénarios détaillés ?</label>
 <input type="email" id="email" name="email" required placeholder="vous@exemple.fr">
 <p class="err" id="err-mail">Adresse email invalide.</p>
 <p class="lead" style="font-size:14px;margin-top:14px">Vous recevrez le dossier complet : chaque scénario chiffré, ses implications pour chaque membre de la famille, et les questions à poser au notaire.</p>
@@ -217,7 +221,7 @@ footer .legal{margin-top:16px;font-size:11.5px;color:#8a94a3;max-width:720px;}
 function droits(part){
   var b=[[8072,0.05],[12092,0.10],[15932,0.15],[552324,0.20],[902838,0.30],[1805677,0.40],[Infinity,0.45]];
   var t=0,prev=0;
-  for(var i=0;i<b.length;i++){var seg=Math.min(part,b[i][0])+0-prev;if(seg>0)t+=seg*b[i][1];prev=b[i][0];if(part<=b[i][0])break;}
+  for(var i=0;i<b.length;i++){var seg=Math.min(part,b[i][0])-prev;if(seg>0)t+=seg*b[i][1];prev=b[i][0];if(part<=b[i][0])break;}
   return t;
 }
 function fmt(n){return n.toLocaleString('fr-FR',{maximumFractionDigits:0})+' \u20AC';}
@@ -229,21 +233,16 @@ function majPatMax(){
 function calculer(){
   var p=Math.max(0,+document.getElementById('pat').value||0);
   var e=+document.getElementById('enf').value;
-  document.getElementById('lbl-l1').textContent='Succession sans anticipation';
-  document.querySelector('#result th').textContent='Sc\u00E9nario ('+e+' enfant'+(e>1?'s':'')+', couple parental)';
-  // Hypothese : couple parental. Abattement succession : 100 000 x 2 parents x e enfants.
   var abCouple=100000*2*e;
   var t1=0;
   if(p>abCouple){t1=2*e*droits((p-abCouple)/(2*e));}
-  // Anticipation maximale : roulement des abattements (2 vagues espacees de 15 ans) + assurance-vie + dons familiaux de sommes d'argent.
   var exemptMax=abCouple*2+152500*e+31865*e;
   var t2=0;
   if(p>exemptMax){t2=2*e*droits((p-exemptMax)/(2*e));}
-  document.getElementById('s1').textContent=fmt(t1);
-  document.getElementById('s2').textContent=fmt(t2);
   var sauve=t1-t2;
-  document.getElementById('gain').textContent=(sauve>0?('Jusqu\u2019\u00E0 '+fmt(sauve)+' d\u2019\u00E9conomie potentielle gr\u00E2ce \u00E0 une anticipation compl\u00E8te : donations espac\u00E9es de 15 ans + assurance-vie + dons familiaux.'):(t1===0?'Les abattements couvrent d\u00E9j\u00E0 l\u2019essentiel : transmission quasi exon\u00E9r\u00E9e.':'Anticipation compl\u00E8te : droits r\u00E9duits \u00E0 pratiquement z\u00E9ro.'));
-  document.getElementById('result').style.display='block';
+  document.getElementById('r2-s1').textContent=fmt(t1);
+  document.getElementById('r2-s2').textContent=fmt(t2);
+  document.getElementById('r2-gain').textContent=sauve>0?('jusqu\u2019\u00E0 '+fmt(sauve)):'maximale';
 }
 function aller(n){
   if(n>=2){calculer();}
@@ -262,7 +261,7 @@ document.addEventListener('DOMContentLoaded',function(){
     ev.preventDefault();
     var data=new URLSearchParams(new FormData(f)).toString();
     fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:data})
-      .then(function(){document.getElementById('merci').classList.add('show');f.reset();document.getElementById('result').style.display='none';aller(1);})
+      .then(function(){document.getElementById('merci').classList.add('show');f.reset();aller(1);})
       .catch(function(){alert('Envoi impossible, r\u00E9essayez.');});
   });
   document.getElementById('fermerModal').addEventListener('click',function(){document.getElementById('merci').classList.remove('show');});
