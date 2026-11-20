@@ -17,17 +17,6 @@
     {"@type": "Question", "name": "Le simulateur remplace-t-il un conseil juridique ou fiscal ?", "acceptedAnswer": {"@type": "Answer", "text": "Non. Le simulateur produit des estimations indicatives pour préparer la discussion en famille et le rendez-vous notarial. Il ne constitue ni un conseil juridique ni un conseil fiscal."}}
   ]
 }
-var sb=document.getElementById('stickybar');
-var simSec=document.getElementById('simuler');
-var formSubmitted=false;
-if('IntersectionObserver' in window){
-  var io=new IntersectionObserver(function(es){es.forEach(function(e){
-    sb.classList.toggle('on',!e.isIntersecting&&!formSubmitted);
-    sb.setAttribute('aria-hidden',(!e.isIntersecting&&!formSubmitted)?'false':'true');
-  });},{threshold:0.15});
-  io.observe(simSec);
-}else{sb.setAttribute('aria-hidden','false');sb.classList.add('on');}
-document.getElementById('fermerModal').addEventListener('click',function(){formSubmitted=true;sb.classList.remove('on');});
 </script>
 <style>
 :root{--ink:#1a2433;--ink-soft:#4a5a70;--paper:#f8f6f1;--card:#ffffff;--accent:#8a6d3b;--line:#e5e0d6;--ok:#2e6e4e;}
@@ -329,6 +318,18 @@ document.addEventListener('DOMContentLoaded',function(){
   document.getElementById('fermerModal').addEventListener('click',function(){document.getElementById('merci').classList.remove('show');});
   document.getElementById('merci').addEventListener('click',function(ev){if(ev.target===this){this.classList.remove('show');}});
 });
+var sb=document.getElementById('stickybar');
+var simSec=document.getElementById('simuler');
+var formSubmitted=false;
+if('IntersectionObserver' in window){
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){
+    sb.classList.toggle('on',!e.isIntersecting&&!formSubmitted);
+    sb.setAttribute('aria-hidden',(!e.isIntersecting&&!formSubmitted)?'false':'true');
+  });},{threshold:0.15});
+  io.observe(simSec);
+}else{sb.setAttribute('aria-hidden','false');sb.classList.add('on');}
+document.getElementById('fermerModal').addEventListener('click',function(){formSubmitted=true;sb.classList.remove('on');});
+
 </script>
 </body>
 </html>
