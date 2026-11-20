@@ -142,7 +142,8 @@ footer .legal{margin-top:16px;font-size:11.5px;color:#8a94a3;max-width:720px;}
 <div class="wrap">
 <h2 style="text-align:center">Recevez l'accès au simulateur complet</h2>
 <p class="lead" style="text-align:center;margin:0 auto">Laissez vos coordonnées, on vous ouvre l'accès en priorité.</p>
-<form class="leadform" name="lead" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+<form class="leadform" name="lead" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field">
+<input type="hidden" name="form-name" value="lead">
 <p class="hidden"><label>Ne pas remplir: <input name="bot-field"></label></p>
 <label for="email">Votre email</label>
 <input type="email" id="email" name="email" required placeholder="vous@exemple.fr">
@@ -190,20 +191,19 @@ function droits(part){
   for(var i=0;i<b.length;i++){var seg=Math.min(part,b[i][0])-prev;if(seg>0)t+=seg*b[i][1];prev=b[i][0];if(part<=b[i][0])break;}
   return t;
 }
-function fmt(n){return n.toLocaleString('fr-FR',{maximumFractionDigits:0})+' €';}
+function fmt(n){return n.toLocaleString('fr-FR',{maximumFractionDigits:0})+' \u20AC';}
 function calculer(){
   var p=Math.max(0,+document.getElementById('pat').value||0);
   var e=+document.getElementById('enf').value;
   var t1=0,t2=0;
   for(var i=0;i<e;i++){var part=Math.max(0,(p-100000*e)/e);t1+=droits(part);}
-  // scenario donation en 2 vagues : abattement renouvelle une fois
   var reste=p;
   for(var v=0;v<2;v++){reste-=Math.min(reste,100000*e);}
   if(reste>0){for(var j=0;j<e;j++){t2+=droits(reste/e);}}
   document.getElementById('s1').textContent=fmt(t1);
   document.getElementById('s2').textContent=fmt(t2);
   var sauve=t1-t2;
-  document.getElementById('gain').textContent=sauve>0?('Économie indicative de '+fmt(sauve)+' grâce à l’anticipation (abattement renouvelé une fois).'):'L’abattement couvre déjà la majeure partie du patrimoine : l’anticipation a moins d’impact.';
+  document.getElementById('gain').textContent=sauve>0?('\u00C9conomie indicative de '+fmt(sauve)+' gr\u00E2ce \u00E0 l\u2019anticipation (abattement renouvel\u00E9 une fois).'):'L\u2019abattement couvre d\u00E9j\u00E0 la majeure partie du patrimoine : l\u2019anticipation a moins d\u2019impact.';
   document.getElementById('result').style.display='block';
 }
 </script>
