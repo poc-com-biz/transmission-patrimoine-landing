@@ -50,17 +50,24 @@ h2{font-family:Georgia,serif;font-size:30px;margin-bottom:16px;font-weight:600;}
 #sim{max-width:720px;margin:36px auto 0;background:#243040;border-radius:12px;padding:32px;}
 #sim label{display:block;margin:18px 0 6px;font-size:14px;color:#b9c6d4;}
 #sim input,#sim select{width:100%;padding:12px;border-radius:6px;border:1px solid #3d4c61;background:#1a2433;color:#fff;font-size:16px;}
+.steps{display:flex;gap:8px;margin-bottom:20px;}
+.steps span{flex:1;height:4px;border-radius:2px;background:#3d4c61;}
+.steps span.on{background:var(--accent);}
+.step-title{font-size:13px;letter-spacing:1px;text-transform:uppercase;color:var(--accent);font-weight:600;}
 button.calc{margin-top:24px;width:100%;padding:14px;border-radius:6px;border:0;background:var(--accent);color:#fff;font-size:16px;font-weight:600;cursor:pointer;}
 button.calc:hover{background:#a3824d;}
-#result{margin-top:24px;display:none;}
-#result table{width:100%;border-collapse:collapse;}
+button.calc[disabled]{opacity:.4;cursor:not-allowed;}
+.btnline{display:flex;gap:12px;}
+.btnline button{flex:1;}
+button.ghost{background:transparent;border:1px solid #3d4c61;color:#b9c6d4;}
+.step{display:none;}
+.step.on{display:block;}
+#result table{width:100%;border-collapse:collapse;margin-top:8px;}
 #result td,#result th{padding:10px 8px;border-bottom:1px solid #3d4c61;text-align:left;font-size:15px;}
 #result th{color:#b9c6d4;font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.5px;}
 #result .val{font-family:Georgia,serif;font-size:19px;}
 .gain{margin-top:18px;padding:14px 16px;background:rgba(46,110,78,.25);border-radius:8px;font-size:15px;}
 .disc{margin-top:16px;font-size:12.5px;color:#8fa0b3;}
-.next-step{margin-top:28px;padding-top:24px;border-top:1px solid #3d4c61;}
-.next-step p{font-size:15px;color:#b9c6d4;margin-bottom:14px;}
 details{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:18px 22px;margin-top:14px;}
 details summary{font-weight:600;cursor:pointer;}
 details p{margin-top:10px;color:var(--ink-soft);font-size:15px;}
@@ -74,6 +81,7 @@ footer .legal{margin-top:16px;font-size:11.5px;color:#8a94a3;max-width:720px;}
 .modal h3{font-family:Georgia,serif;font-size:24px;color:#1a2433;margin-bottom:10px;font-weight:600;}
 .modal p{color:#4a5a70;font-size:15px;margin-bottom:24px;}
 .modal button{padding:12px 32px;border:0;border-radius:6px;background:#1a2433;color:#fff;font-size:15px;font-weight:600;cursor:pointer;}
+.err{color:#e0a0a0;font-size:13px;margin-top:8px;display:none;}
 </style>
 </head>
 <body>
@@ -90,42 +98,67 @@ footer .legal{margin-top:16px;font-size:11.5px;color:#8a94a3;max-width:720px;}
 <div class="stats">
 <div><b>100 000 &euro;</b><small>d'abattement par enfant, tous les 15 ans</small></div>
 <div><b>Jusqu'à 45 %</b><small>de droits au-delà des abattements, sans anticipation</small></div>
-<div><b>20 min</b><small>pour visualiser les scénarios de votre famille</small></div>
+<div><b>3 minutes</b><small>pour obtenir les scénarios de votre famille</small></div>
 </div>
 </div>
 </section>
 
-<section id="simuler" class="dark"><span id="acces-lead" style="display:block;height:0"></span>
+<section id="simuler" class="dark">
 <div class="wrap" style="margin:40px auto 0;max-width:720px;">
-<h2>Calculez vos droits, puis recevez vos scénarios</h2>
-<p class="lead">Estimation immédiate de la fiscalité et du potentiel d'optimisation. Puis recevez le dossier complet de scénarios par email.</p>
+<h2>Vos scénarios en 3 étapes</h2>
+<p class="lead">Estimation immédiate de la fiscalité, puis dossier complet personnalisé, reçu par email.</p>
 </div>
-<form id="sim" class="" name="lead" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field">
+<form id="sim" name="lead" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field">
 <input type="hidden" name="form-name" value="lead">
 <p class="hidden"><label>Ne pas remplir: <input name="bot-field"></label></p>
 
-<label for="pat">1. Patrimoine total à transmettre (euros)</label>
-<input type="number" id="pat" name="patrimoine" min="0" step="1000" value="800000" oninput="calculer()">
-<label for="enf">2. Nombre d'enfants dans la fratrie</label>
-<select id="enf" name="enfants" onchange="calculer()"><option value="1">1</option><option value="2" selected>2</option><option value="3">3</option><option value="4">4 ou plus</option></select>
-<label for="age">3. Âge de vos parents</label>
-<select id="age" name="age_parents"><option>Moins de 60 ans</option><option>60 à 70 ans</option><option>70 à 80 ans</option><option>Plus de 80 ans</option></select>
-<button type="button" class="calc" onclick="calculer(true)">Calculer les scénarios</button>
+<div class="steps"><span id="st1" class="on"></span><span id="st2"></span><span id="st3"></span></div>
 
-<div id="result">
+<div class="step on" id="etape1">
+<p class="step-title">Étape 1 / 3 &mdash; Calcul des droits</p>
+<label for="pat">Patrimoine total à transmettre (euros)</label>
+<input type="number" id="pat" name="patrimoine" min="0" step="1000" value="800000" oninput="majPatMax()">
+<label for="enf">Nombre d'enfants dans la fratrie</label>
+<select id="enf" name="enfants"><option value="1">1</option><option value="2" selected>2</option><option value="3">3</option><option value="4">4 ou plus</option></select>
+<button type="button" class="calc" onclick="aller(2)">Calculer les droits</button>
+<div id="result" style="display:none">
 <table>
 <tr><th>Scénario</th><th>Droits estimés</th></tr>
 <tr><td>Succession sans anticipation</td><td class="val" id="s1"></td></tr>
 <tr><td>Avec donation anticipée (renouvellement)</td><td class="val" id="s2"></td></tr>
 </table>
 <div class="gain" id="gain"></div>
-<div class="next-step">
-<p>Ce ne sont que deux scénarios parmi tous ceux que notre simulateur compare (démembrement, assurance-vie, donation-partage...). Recevez le dossier complet, personnalisé pour votre famille :</p>
-<label for="email">4. Votre email</label>
-<input type="email" id="email" name="email" required placeholder="vous@exemple.fr" style="width:100%;padding:12px;border-radius:6px;border:1px solid #3d4c61;background:#1a2433;color:#fff;font-size:16px;">
+</div>
+<p class="disc">Estimation indicative : barème 2026 des droits de mutation à titre gratuit, abattement de 100 000 euros par enfant tous les 15 ans, barème progressif 5 à 45 % par part. Liste non exhaustive des scénarios possibles. Ne constitue ni un conseil juridique ni un conseil fiscal.</p>
+</div>
+
+<div class="step" id="etape2">
+<p class="step-title">Étape 2 / 3 &mdash; Où envoyer vos scénarios</p>
+<label for="email">Votre email</label>
+<input type="email" id="email" name="email" required placeholder="vous@exemple.fr">
+<p class="err" id="err-mail">Adresse email invalide.</p>
+<p class="lead" style="font-size:14px;margin-top:14px">Vous recevrez le dossier complet : chaque scénario chiffré, ses implications pour chaque membre de la famille, et les questions à poser au notaire.</p>
+<div class="btnline">
+<button type="button" class="calc ghost" onclick="aller(1)">Retour</button>
+<button type="button" class="calc" onclick="verifMail()">Continuer</button>
+</div>
+</div>
+
+<div class="step" id="etape3">
+<p class="step-title">Étape 3 / 3 &mdash; Détails pour affiner vos scénarios</p>
+<label for="age">Âge de vos parents</label>
+<select id="age" name="age_parents"><option>Moins de 60 ans</option><option>60 à 70 ans</option><option>70 à 80 ans</option><option>Plus de 80 ans</option></select>
+<label for="immo">Dont immobilier (euros) &mdash; estimation</label>
+<input type="number" id="immo" name="immobilier" min="0" step="1000" oninput="majPatMax()" placeholder="Ex : 500000">
+<label for="av">Dont assurance-vie (euros) &mdash; estimation</label>
+<input type="number" id="av" name="assurance_vie" min="0" step="1000" oninput="majPatMax()" placeholder="Ex : 100000">
+<label for="autres">Autres actifs (livrets, actions...) &mdash; estimation</label>
+<input type="number" id="autres" name="autres_actifs" min="0" step="1000" oninput="majPatMax()" placeholder="Ex : 200000">
+<p class="lead" style="font-size:14px;margin-top:14px" id="tot-detail">Ces montants sont indicatifs : des ordres de grandeur suffisent pour comparer les scénarios.</p>
+<div class="btnline">
+<button type="button" class="calc ghost" onclick="aller(2)">Retour</button>
 <button type="submit" class="calc">Recevoir mes scénarios détaillés</button>
 </div>
-<p class="disc">Estimation indicative basée sur le barème des droits de mutation à titre gratuit 2026 (abattement de 100 000 euros par enfant tous les 15 ans, barème progressif 5 à 45 % par part). Ne tient pas compte des spécificités (biens immobiliers, assurance-vie, démembrement, régime matrimonial), des abattements spécifiques ni des donations déjà réalisées. Ne constitue ni un conseil juridique ni un conseil fiscal.</p>
 </div>
 </form>
 </section>
@@ -168,7 +201,7 @@ footer .legal{margin-top:16px;font-size:11.5px;color:#8a94a3;max-width:720px;}
 <footer>
 <div class="wrap">
 <div>TransmettreClair &mdash; Simulateur de transmission patrimoniale entre générations</div>
-<p class="legal">Les estimations fournies sont indicatives et reposent sur le barème 2026 des droits de mutation à titre gratuit. Elles ne constituent ni un conseil juridique ni un conseil fiscal et ne remplacent pas la consultation d'un notaire ou d'un avocat fiscaliste. Les données collectées via le formulaire servent uniquement à vous donner accès au simulateur.</p>
+<p class="legal">Les estimations fournies sont indicatives et reposent sur le barème 2026 des droits de mutation à titre gratuit. Elles ne constituent ni un conseil juridique ni un conseil fiscal et ne remplacent pas la consultation d'un notaire ou d'un avocat fiscaliste. Les données collectées via le questionnaire servent uniquement à produire et vous envoyer vos scénarios.</p>
 </div>
 </footer>
 
@@ -189,7 +222,12 @@ function droits(part){
   return t;
 }
 function fmt(n){return n.toLocaleString('fr-FR',{maximumFractionDigits:0})+' \u20AC';}
-function calculer(show){
+function majPatMax(){
+  var d=(+document.getElementById('immo').value||0)+(+document.getElementById('av').value||0)+(+document.getElementById('autres').value||0);
+  var t=document.getElementById('tot-detail');
+  if(d>0){t.textContent='D\u00E9tail saisi : '+fmt(d)+'. Total estim\u00E9 en \u00E9tape 1 : '+fmt((+document.getElementById('pat').value||0))+'. Ajustez si n\u00E9cessaire.';}
+}
+function calculer(){
   var p=Math.max(0,+document.getElementById('pat').value||0);
   var e=+document.getElementById('enf').value;
   var t1=0,t2=0;
@@ -203,22 +241,29 @@ function calculer(show){
   document.getElementById('gain').textContent=sauve>0?('\u00C9conomie indicative de '+fmt(sauve)+' gr\u00E2ce \u00E0 l\u2019anticipation (abattement renouvel\u00E9 une fois).'):'L\u2019abattement couvre d\u00E9j\u00E0 la majeure partie du patrimoine : l\u2019anticipation a moins d\u2019impact.';
   document.getElementById('result').style.display='block';
 }
+function aller(n){
+  var patOk = n===1 || (+document.getElementById('pat').value||0)>0;
+  if(n>=2){calculer();}
+  for(var i=1;i<=3;i++){document.getElementById('etape'+i).classList.toggle('on',i===n);document.getElementById('st'+i).classList.toggle('on',i<=n);}
+  document.getElementById('sim').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function verifMail(){
+  var em=document.getElementById('email');
+  var ok=/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em.value);
+  document.getElementById('err-mail').style.display=ok?'none':'block';
+  if(ok){aller(3);}
+}
 document.addEventListener('DOMContentLoaded',function(){
   var f=document.querySelector('#sim');
-  if(!f){return;}
   f.addEventListener('submit',function(ev){
     ev.preventDefault();
     var data=new URLSearchParams(new FormData(f)).toString();
     fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:data})
-      .then(function(){document.getElementById('merci').classList.add('show');f.reset();document.getElementById('result').style.display='none';})
+      .then(function(){document.getElementById('merci').classList.add('show');f.reset();document.getElementById('result').style.display='none';aller(1);})
       .catch(function(){alert('Envoi impossible, r\u00E9essayez.');});
   });
-  document.getElementById('fermerModal').addEventListener('click',function(){
-    document.getElementById('merci').classList.remove('show');
-  });
-  document.getElementById('merci').addEventListener('click',function(ev){
-    if(ev.target===this){this.classList.remove('show');}
-  });
+  document.getElementById('fermerModal').addEventListener('click',function(){document.getElementById('merci').classList.remove('show');});
+  document.getElementById('merci').addEventListener('click',function(ev){if(ev.target===this){this.classList.remove('show');}});
 });
 </script>
 </body>
