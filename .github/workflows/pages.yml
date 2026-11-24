@@ -58,7 +58,7 @@ jobs:
           for f in glob.glob('**/*.html', recursive=True):
               c = open(f, encoding='utf-8').read()
               if 'goatcounter' in c: continue
-              c = c.replace('</head>', TAG + '<meta name="google-site-verification" content="04JdtfJGb3EUkCVp6K30UxAZgio71fEsT__AuU83d9s" />\n' + '</head>', 1)
+              c = c.replace('</head>', TAG + '<meta name="google-site-verification" content="W1BkDTyuR8Aio8dikiiq4zATNTa0jc4Xy_sAzYJLcQA" />\n' + '</head>', 1)
               c = c.replace('</body>', TRACK + '</body>', 1)
               open(f, 'w', encoding='utf-8').write(c)
               n += 1
