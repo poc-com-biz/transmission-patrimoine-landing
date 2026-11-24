@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://transmission-patrimoine.netlify.app/</loc></url>
-<url><loc>https://transmission-patrimoine.netlify.app/droits-de-succession</loc></url>
-<url><loc>https://transmission-patrimoine.netlify.app/donation-ou-succession</loc></url>
-<url><loc>https://transmission-patrimoine.netlify.app/preparer-transmission-parents</loc></url>
-<url><loc>https://transmission-patrimoine.netlify.app/avance-sur-heritage</loc></url>
+<url><loc>https://poc-com-biz.github.io/transmission-patrimoine-landing/</loc></url>
+<url><loc>https://poc-com-biz.github.io/transmission-patrimoine-landing/droits-de-succession</loc></url>
+<url><loc>https://poc-com-biz.github.io/transmission-patrimoine-landing/donation-ou-succession</loc></url>
+<url><loc>https://poc-com-biz.github.io/transmission-patrimoine-landing/preparer-transmission-parents</loc></url>
+<url><loc>https://poc-com-biz.github.io/transmission-patrimoine-landing/avance-sur-heritage</loc></url>
+<url><loc>https://poc-com-biz.github.io/transmission-patrimoine-landing/abattement-donation</loc></url>
+<url><loc>https://poc-com-biz.github.io/transmission-patrimoine-landing/simulation-donation</loc></url>
+<url><loc>https://poc-com-biz.github.io/transmission-patrimoine-landing/assurance-vie-succession</loc>
 </urlset>

@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://transmission-patrimoine.netlify.app/sitemap.xml
+Sitemap: https://poc-com-biz.github.io/transmission-patrimoine-landing/sitemap.xml
