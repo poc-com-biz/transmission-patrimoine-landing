@@ -1,0 +1,56 @@
+name: Deploy GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Injecter analytics GoatCounter
+        run: |
+          python3 - <<'PY'
+          import glob, re
+          TAG = '<script data-goatcounter="https://transmission-patrimoine.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>'
+          TRACK = '''<script>
+          document.addEventListener('submit',function(ev){
+            var t=ev.target;
+            if(t&&t.getAttribute('data-netlify')==='true'&&window.goatcounter&&window.goatcounter.count){
+              window.goatcounter.count({path:'formulaire-envoye',event:true});
+            }
+          },true);
+          </script>'''
+          for f in glob.glob('**/*.html', recursive=True):
+              c = open(f, encoding='utf-8').read()
+              if 'goatcounter' in c: continue
+              c = c.replace('</head>', TAG + '</head>', 1)
+              c = c.replace('</body>', TRACK + '</body>', 1)
+              open(f, 'w', encoding='utf-8').write(c)
+              print('injected', f)
+          PY
+          touch .nojekyll
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
