@@ -25,13 +25,27 @@ jobs:
           import glob, datetime
           TAG = '<script data-goatcounter="https://transmission-patrimoine.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>'
           TRACK = '''<script>
-          document.addEventListener('submit',function(ev){
-            var t=ev.target;
-            if(t&&t.getAttribute('data-netlify')==='true'&&window.goatcounter&&window.goatcounter.count){
-              window.goatcounter.count({path:'formulaire-envoye',event:true});
-            }
-          },true);
-          </script>'''
+(function(){
+  var CIBLE='https://transmission-patrimoine.netlify.app/';
+  function envoyer(t){
+    try{
+      var nom='gcenv'+Date.now();
+      var fr=document.createElement('iframe');fr.name=nom;fr.style.display='none';
+      var nf=document.createElement('form');nf.method='POST';nf.action=CIBLE;nf.target=nom;
+      new FormData(t).forEach(function(v,k){var i=document.createElement('input');i.type='hidden';i.name=k;i.value=v;nf.appendChild(i);});
+      document.body.appendChild(fr);document.body.appendChild(nf);nf.submit();
+      setTimeout(function(){try{document.body.removeChild(fr);document.body.removeChild(nf);}catch(e){}},2000);
+    }catch(e){}
+  }
+  document.addEventListener('submit',function(ev){
+    var t=ev.target;
+    if(t&&t.getAttribute('data-netlify')==='true'){
+      if(window.goatcounter&&window.goatcounter.count){window.goatcounter.count({path:'formulaire-envoye',event:true});}
+      envoyer(t);
+    }
+  },true);
+})();
+</script>'''
           n = 0
           for f in glob.glob('**/*.html', recursive=True):
               c = open(f, encoding='utf-8').read()
