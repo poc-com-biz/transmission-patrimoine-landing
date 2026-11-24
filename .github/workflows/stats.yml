@@ -5,7 +5,7 @@ on:
     branches: [main]
     paths: ['.github/workflows/stats.yml']
   schedule:
-    - cron: '0 7 * * *'
+    - cron: '0 6 * * *'
   workflow_dispatch:
 
 permissions:
@@ -53,6 +53,7 @@ jobs:
           yday_pages = dict(sorted(per_page.items()))
           yday_forms = forms
           per_page = {}
+
           forms = 0
           collect(today, today)
           today_pages = dict(sorted(per_page.items()))
