@@ -25,27 +25,34 @@ jobs:
           import glob, datetime
           TAG = '<script data-goatcounter="https://transmission-patrimoine.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>'
           TRACK = '''<script>
-(function(){
-  var CIBLE='https://transmission-patrimoine.netlify.app/';
-  function envoyer(t){
-    try{
-      var nom='gcenv'+Date.now();
-      var fr=document.createElement('iframe');fr.name=nom;fr.style.display='none';
-      var nf=document.createElement('form');nf.method='POST';nf.action=CIBLE;nf.target=nom;
-      new FormData(t).forEach(function(v,k){var i=document.createElement('input');i.type='hidden';i.name=k;i.value=v;nf.appendChild(i);});
-      document.body.appendChild(fr);document.body.appendChild(nf);nf.submit();
-      setTimeout(function(){try{document.body.removeChild(fr);document.body.removeChild(nf);}catch(e){}},2000);
-    }catch(e){}
-  }
-  document.addEventListener('submit',function(ev){
-    var t=ev.target;
-    if(t&&t.getAttribute('data-netlify')==='true'){
-      if(window.goatcounter&&window.goatcounter.count){window.goatcounter.count({path:'formulaire-envoye',event:true});}
-      envoyer(t);
-    }
-  },true);
-})();
-</script>'''
+          (function(){
+            var origFetch = window.fetch ? window.fetch.bind(window) : null;
+            if(!origFetch){return;}
+            window.fetch = function(url, opts){
+              try{
+                var u = (typeof url==='string') ? url : ((url && url.url) || '');
+                var isPost = opts && opts.method && opts.method.toUpperCase()==='POST';
+                var bodyStr = (opts && typeof opts.body==='string') ? opts.body : '';
+                var isLeadPage = (u==='.'||u===''||u==='/'||u===window.location.href);
+                if(isPost && isLeadPage && bodyStr.indexOf('form-name=lead')>-1){
+                  var params = new URLSearchParams(bodyStr);
+                  var payload = {'_subject':'Nouveau lead - transmission-patrimoine', '_template':'table', '_captcha':'false'};
+                  params.forEach(function(v,k){
+                    if(k!=='form-name' && k!=='bot-field' && v!==''){ payload[k]=v; }
+                  });
+                  payload.page = window.location.href;
+                  if(window.goatcounter && window.goatcounter.count){ window.goatcounter.count({path:'formulaire-envoye',event:true}); }
+                  return origFetch('https://formsubmit.co/ajax/transmettreclair@gmail.com',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(payload)})
+                    .then(function(r){
+                      if(!r.ok){ throw new Error('envoi lead refuse'); }
+                      return r;
+                    });
+                }
+              }catch(e){}
+              return origFetch.apply(null,arguments);
+            };
+          })();
+          </script>'''
           n = 0
           for f in glob.glob('**/*.html', recursive=True):
               c = open(f, encoding='utf-8').read()
