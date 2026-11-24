@@ -22,45 +22,56 @@ jobs:
           import urllib.request, json, datetime, os, sys
           key = os.environ["GOATCOUNTER_API_KEY"]
           base = "https://transmission-patrimoine.goatcounter.com/api/v0"
+          today = datetime.date.today().isoformat()
           yday = (datetime.date.today() - datetime.timedelta(days=1)).isoformat()
-          def get(path, params):
-              url = base + path + "?" + params
-              req = urllib.request.Request(url, headers={"Authorization": "Bearer " + key, "Content-Type": "application/json"})
+          def get(path):
+              req = urllib.request.Request(base + path, headers={"Authorization": "Bearer " + key, "Content-Type": "application/json"})
               return json.load(urllib.request.urlopen(req))
-          def perr(f):
-              sys.stderr.write(f + "\n")
-          lines = []
-          try:
-              tot = get("/stats/total", "start=" + yday + "&end=" + yday + "&daily=0")
-              pv = tot.get("pageviews") or 0
-              vis = tot.get("visitors") or 0
-              lines.append("RAPPORT DU " + yday)
-              lines.append("")
-              lines.append("Visites totales: pages vues " + str(pv) + ", visiteurs uniques " + str(vis))
-          except Exception as e:
-              perr("erreur /stats/total: " + str(e))
-          lines.append("")
-          lines.append("VISITES PAR PAGE:")
-          pages = {}
-          try:
-              pg = get("/stats/pages", "start=" + yday + "&end=" + yday)
-              rows = pg.get("statistics") or pg.get("rows") or []
-              for r in rows:
-                  paths = r.get("paths") or []
-                  if paths:
-                      name = paths[0].get("path", "?")
-                      pages[name] = paths[0].get("count") or sum((p.get("count", 0) for p in paths))
-          except Exception as e:
-              perr("erreur /stats/pages: " + str(e))
-          formulaire = pages.pop("/formulaire-envoye", 0) or 0
-          if not pages:
-              lines.append("- aucune donnee (erreur API ou zero trafic)")
-          for name in sorted(pages):
-              lines.append("- " + name + " : " + str(pages[name]))
-          lines.append("")
-          lines.append("FORMULAIRES ENVOYES: " + str(formulaire))
+          total = {}
+          per_page = {}
+          forms = 0
+          def collect(begin, end):
+              global forms
+              tot = get("/stats/total?start=" + begin + "&end=" + end)
+              total[begin] = (tot.get("total") or 0, tot.get("total_events") or 0)
+              hits = get("/stats/hits?start=" + begin + "&end=" + end)
+              rows = hits.get("hits") or []
+              for h in rows:
+                  p = h.get("path")
+                  if isinstance(p, dict):
+                      name = p.get("path", "?")
+                      ev = p.get("event", False)
+                  else:
+                      name = p or "?"
+                      ev = False
+                  cnt = h.get("count") or 0
+                  if ev or name == "formulaire-envoye" or name.endswith("/formulaire-envoye"):
+                      forms += cnt
+                  else:
+                      per_page[name] = per_page.get(name, 0) + cnt
+          collect(yday, yday)
+          yday_pages = dict(sorted(per_page.items()))
+          yday_forms = forms
+          per_page = {}
+          forms = 0
+          collect(today, today)
+          today_pages = dict(sorted(per_page.items()))
+          today_forms = forms
+          lines = ["RAPPORT QUOTIDIEN - SITE TRANSMISSION-PATRIMOINE", "Genere le " + today]
+          lines += ["", "=== VEILLE (" + yday + ") ===", "Pages vues: " + str(total.get(yday, (0,0))[0]), "VISITES PAR PAGE:"]
+          if not yday_pages:
+              lines.append("- aucune visite")
+          for name in yday_pages:
+              lines.append("- " + name + " : " + str(yday_pages[name]))
+          lines.append("FORMULAIRES ENVOYES: " + str(yday_forms))
+          lines += ["", "=== CUMUL DU JOUR (" + today + ") ===", "Pages vues: " + str(total.get(today, (0,0))[0]), "VISITES PAR PAGE:"]
+          if not today_pages:
+              lines.append("- aucune visite pour l'instant")
+          for name in today_pages:
+              lines.append("- " + name + " : " + str(today_pages[name]))
+          lines.append("FORMULAIRES ENVOYES: " + str(today_forms))
           os.makedirs("stats", exist_ok=True)
-          open("stats/rapport-quotidien.txt", "w").write(chr(10).join(lines) + chr(10))
+          open("stats/rapport-quotidien.txt", "w", encoding="utf-8").write(chr(10).join(lines) + chr(10))
           PY
         env:
           GOATCOUNTER_API_KEY: ${{ secrets.GOATCOUNTER_API_KEY }}
