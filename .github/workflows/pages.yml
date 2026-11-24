@@ -44,7 +44,8 @@ jobs:
                   if(window.goatcounter && window.goatcounter.count){ window.goatcounter.count({path:'formulaire-envoye',event:true}); }
                   return origFetch('https://formsubmit.co/ajax/transmettreclair@gmail.com',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(payload)})
                     .then(function(r){
-                      if(!r.ok){ throw new Error('envoi lead refuse'); }
+       
+               if(!r.ok){ throw new Error('envoi lead refuse'); }
                       return r;
                     });
                 }
@@ -57,7 +58,7 @@ jobs:
           for f in glob.glob('**/*.html', recursive=True):
               c = open(f, encoding='utf-8').read()
               if 'goatcounter' in c: continue
-              c = c.replace('</head>', TAG + '</head>', 1)
+              c = c.replace('</head>', TAG + '<meta name="google-site-verification" content="04JdtfJGb3EUkCVp6K30UxAZgio71fEsT__AuU83d9s" />\n' + '</head>', 1)
               c = c.replace('</body>', TRACK + '</body>', 1)
               open(f, 'w', encoding='utf-8').write(c)
               n += 1
