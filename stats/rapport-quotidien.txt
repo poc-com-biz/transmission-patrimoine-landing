@@ -1,5 +1,14 @@
+RAPPORT QUOTIDIEN - SITE TRANSMISSION-PATRIMOINE
+Genere le 2026-11-24
 
+=== VEILLE (2026-11-23) ===
+Pages vues: 0
 VISITES PAR PAGE:
-- aucune donnee (erreur API ou zero trafic)
+- aucune visite
+FORMULAIRES ENVOYES: 0
 
+=== CUMUL DU JOUR (2026-11-24) ===
+Pages vues: 0
+VISITES PAR PAGE:
+- aucune visite pour l'instant
 FORMULAIRES ENVOYES: 0
