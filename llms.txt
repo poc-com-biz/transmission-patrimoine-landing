@@ -1,4 +1,4 @@
-# TransmettreClair
+# Legae
 > Simulateur de transmission de patrimoine entre générations (France) : droits de succession, donations, abattements, assurance-vie, calendrier des 15 ans.
 
 Pages principales :
