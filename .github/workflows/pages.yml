@@ -42,7 +42,7 @@ jobs:
                   });
                   payload.page = window.location.href;
                   if(window.goatcounter && window.goatcounter.count){ window.goatcounter.count({path:'formulaire-envoye',event:true}); }
-                  return origFetch('https://formsubmit.co/ajax/transmettreclair@gmail.com',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(payload)})
+                  return origFetch('https://formsubmit.co/ajax/bonjour@legae.fr',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(payload)})
                     .then(function(r){
        
 
