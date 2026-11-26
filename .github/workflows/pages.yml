@@ -41,6 +41,7 @@ jobs:
           if(k!=='form-name' && k!=='bot-field' && v!==''){ payload[k]=v; }
           });
           payload.page = window.location.href;
+          payload.formulaire = params.get('form-name') || 'lead';
           if(window.goatcounter && window.goatcounter.count){ window.goatcounter.count({path:'formulaire-envoye',event:true}); }
           return origFetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(payload)})
           .then(function(r){
