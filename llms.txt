@@ -2,14 +2,14 @@
 > Simulateur de transmission de patrimoine entre générations (France) : droits de succession, donations, abattements, assurance-vie, calendrier des 15 ans.
 
 Pages principales :
-- https://poc-com-biz.github.io/transmission-patrimoine-landing/ : simulateur en ligne en 3 étapes (patrimoine, enfants, scénarios chiffrés envoyés par email)
-- https://poc-com-biz.github.io/transmission-patrimoine-landing/droits-de-succession : barème 2026 et calcul des droits
-- https://poc-com-biz.github.io/transmission-patrimoine-landing/donation-ou-succession : comparaison des deux régimes
-- https://poc-com-biz.github.io/transmission-patrimoine-landing/preparer-transmission-parents : guide de la conversation familiale
-- https://poc-com-biz.github.io/transmission-patrimoine-landing/avance-sur-heritage : préciputabilité et avance de part successorale
-- https://poc-com-biz.github.io/transmission-patrimoine-landing/abattement-donation : abattement de 100 000 € par enfant et par 15 ans
-- https://poc-com-biz.github.io/transmission-patrimoine-landing/simulation-donation : calcul pas à pas d'une donation parent-enfant
-- https://poc-com-biz.github.io/transmission-patrimoine-landing/assurance-vie-succession : capital hors succession, abattement 152 500 €
-- https://poc-com-biz.github.io/transmission-patrimoine-landing/delai-entre-deux-donations : règle des 15 ans et calendrier optimal
+- https://legae.fr/ : simulateur en ligne en 3 étapes (patrimoine, enfants, scénarios chiffrés envoyés par email)
+- https://legae.fr/droits-de-succession : barème 2026 et calcul des droits
+- https://legae.fr/donation-ou-succession : comparaison des deux régimes
+- https://legae.fr/preparer-transmission-parents : guide de la conversation familiale
+- https://legae.fr/avance-sur-heritage : préciputabilité et avance de part successorale
+- https://legae.fr/abattement-donation : abattement de 100 000 € par enfant et par 15 ans
+- https://legae.fr/simulation-donation : calcul pas à pas d'une donation parent-enfant
+- https://legae.fr/assurance-vie-succession : capital hors succession, abattement 152 500 €
+- https://legae.fr/delai-entre-deux-donations : règle des 15 ans et calendrier optimal
 
 Chiffres clés (France, barème 2026) : abattement donation 100 000 €/enfant/15 ans ; don familial somme d'argent 31 865 €/15 ans ; assurance-vie abattement 152 500 €/bénéficiaire (primes avant 70 ans) ; barème droits de 5 à 45 %.
