@@ -36,13 +36,13 @@ jobs:
                 var isLeadPage = (u==='.'||u===''||u==='/'||u===window.location.href);
                 if(isPost && isLeadPage && bodyStr.indexOf('form-name=lead')>-1){
                   var params = new URLSearchParams(bodyStr);
-                  var payload = {'_subject':'Nouveau lead - transmission-patrimoine', '_template':'table', '_captcha':'false'};
+                  var payload = {'access_key':'aa5b9764-7b8d-4bdb-acc6-8a46493adb39', 'subject':'Nouveau lead - Legae <legae.fr>'};
                   params.forEach(function(v,k){
                     if(k!=='form-name' && k!=='bot-field' && v!==''){ payload[k]=v; }
                   });
                   payload.page = window.location.href;
                   if(window.goatcounter && window.goatcounter.count){ window.goatcounter.count({path:'formulaire-envoye',event:true}); }
-                  return origFetch('https://formsubmit.co/ajax/bonjour@legae.fr',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(payload)})
+                  return origFetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(payload)})
                     .then(function(r){
        
 
