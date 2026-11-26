@@ -1,5 +1,5 @@
 # Legae
-> Simulateur de transmission de patrimoine entre générations (France) : droits de succession, donations, abattements, assurance-vie, calendrier des 15 ans.
+> Simulateur de transmission de patrimoine entre générations (France) : droits de succession, donations, abattements, assurance-vie, bilan patrimonial, calendrier des 15 ans.
 
 Pages principales :
 - https://legae.fr/ : simulateur en ligne en 3 étapes (patrimoine, enfants, scénarios chiffrés envoyés par email)
@@ -11,5 +11,8 @@ Pages principales :
 - https://legae.fr/simulation-donation : calcul pas à pas d'une donation parent-enfant
 - https://legae.fr/assurance-vie-succession : capital hors succession, abattement 152 500 €
 - https://legae.fr/delai-entre-deux-donations : règle des 15 ans et calendrier optimal
+- https://legae.fr/bilan-patrimonial : définition, contenu et utilité pour une transmission
+- https://legae.fr/cout-bilan-patrimonial : tarifs 2026 d'un bilan patrimonial (0 € à 3 000 €)
+- https://legae.fr/bilan-patrimonial-gratuit : options gratuites et leurs limites
 
-Chiffres clés (France, barème 2026) : abattement donation 100 000 €/enfant/15 ans ; don familial somme d'argent 31 865 €/15 ans ; assurance-vie abattement 152 500 €/bénéficiaire (primes avant 70 ans) ; barème droits de 5 à 45 %.
+Chiffres clés (France, barème 2026) : abattement donation 100 000 €/enfant/15 ans ; don familial somme d'argent 31 865 €/15 ans ; assurance-vie abattement 152 500 €/bénéficiaire (primes avant 70 ans) ; barème droits de 5 à 45 % ; bilan patrimonial 500-1 500 € (CGP), 1 500-3 000 € (étude approfondie), gratuit en banque avec orientation commerciale.
