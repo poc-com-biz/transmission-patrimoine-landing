@@ -54,6 +54,7 @@ jobs:
           })();
           </script>'''
           STICKY_CSS = '<style>body{padding-bottom:74px}.sticky-cta{position:fixed;left:0;right:0;bottom:0;z-index:60;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;gap:18px;padding:12px 16px;flex-wrap:wrap;box-shadow:0 -6px 20px rgba(26,36,51,.35)}.sticky-cta p{margin:0;font-size:14.5px;color:#e8ecf3}.sticky-cta a{display:inline-block;background:var(--accent);color:#fff;padding:9px 20px;border-radius:6px;text-decoration:none;font-weight:600;font-size:14.5px;white-space:nowrap}.sticky-cta a:hover{filter:brightness(1.15)}</style>'
+          BRAND_CSS = '<style>a.brand{text-decoration:none;color:inherit}</style>'
           n = 0
           for f in glob.glob('**/*.html', recursive=True):
               c = open(f, encoding='utf-8').read()
@@ -62,9 +63,12 @@ jobs:
               c = c.replace('TransmettreClair', 'Legae')
               c = c.replace('Transmission<span>Claire</span>', 'Legae')
               c = c.replace('TransmissionClaire', 'Legae')
-              href = '../#acces-lead' if ('/' in f) else '#acces-lead'
+              is_sub = ('/' in f)
+              href = '../#acces-lead' if is_sub else '#acces-lead'
+              home = '../' if is_sub else ''
               banner = STICKY_CSS + '<div class="sticky-cta"><p>Simulez la transmission du patrimoine de vos parents, gratuitement.</p><a href="' + href + '">Evaluer nos scenarios</a></div>'
-              c = c.replace('</head>', TAG + '<meta name="google-site-verification" content="W1BkDTyuR8Aio8dikiiq4zATNTa0jc4Xy_sAzYJLcQA" />\n' + '</head>', 1)
+              c = c.replace('<div class="brand">Legae</div>', '<a class="brand" href="' + home + '">Legae</a>', 1)
+              c = c.replace('</head>', TAG + BRAND_CSS + '<meta name="google-site-verification" content="W1BkDTyuR8Aio8dikiiq4zATNTa0jc4Xy_sAzYJLcQA" />\n' + '</head>', 1)
               c = c.replace('</body>', banner + TRACK + '</body>', 1)
               open(f, 'w', encoding='utf-8').write(c)
               n += 1
