@@ -22,63 +22,63 @@ jobs:
       - name: Injecter analytics, nav complete, bandeau sticky CTA
         run: |
           python3 - <<'PY'
-import glob, datetime, re
-TAG = '<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap" rel="stylesheet">\n<style>.brand{font-family:"Caveat",cursive;font-size:30px;font-weight:600;letter-spacing:.5px;},.brand span{color:var(--accent);}</style>\n<script data-goatcounter="https://transmission-patrimoine.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>'
-TRACK = '''<script>
-(function(){
-var origFetch = window.fetch ? window.fetch.bind(window) : null;
-if(!origFetch){return;}
-window.fetch = function(url, opts){
-try{
-var u = (typeof url==='string') ? url : ((url && url.url) || '');
-var isPost = opts && opts.method && opts.method.toUpperCase()==='POST';
-var bodyStr = (opts && typeof opts.body==='string') ? opts.body : '';
-var isLeadPage = (u==='.'||u===''||u==='/'||u===window.location.href);
-if(isPost && isLeadPage && bodyStr.indexOf('form-name=lead')>-1){
-var params = new URLSearchParams(bodyStr);
-var payload = {'access_key':'aa5b9764-7b8d-4bdb-acc6-8a46493adb39', 'subject':'Nouveau lead - Legae <legae.fr>'};
-params.forEach(function(v,k){
-if(k!=='form-name' && k!=='bot-field' && v!==''){ payload[k]=v; }
-});
-payload.page = window.location.href;
-if(window.goatcounter && window.goatcounter.count){ window.goatcounter.count({path:'formulaire-envoye',event:true}); }
-return origFetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(payload)})
-.then(function(r){
-if(!r.ok){ throw new Error('envoi lead refuse'); }
-return r;
-});
-}
-}catch(e){}
-return origFetch.apply(null,arguments);
-};
-})();
-</script>'''
-STICKY_CSS = '<style>body{padding-bottom:74px}.sticky-cta{position:fixed;left:0;right:0;bottom:0;z-index:60;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;gap:18px;padding:12px 16px;flex-wrap:wrap;box-shadow:0 -6px 20px rgba(26,36,51,.35)}.sticky-cta p{margin:0;font-size:14.5px;color:#e8ecf3}.sticky-cta a{display:inline-block;background:var(--accent);color:#fff;padding:9px 20px;border-radius:6px;text-decoration:none;font-weight:600;font-size:14.5px;white-space:nowrap}.sticky-cta a:hover{filter:brightness(1.15)}</style>'
-BRAND_CSS = '<style>a.brand{text-decoration:none;color:inherit}header nav{flex-wrap:wrap}header nav div{flex-wrap:wrap}</style>'
-LINKS = [("Accueil",""),("Bilan patrimonial","bilan-patrimonial"),("Prix d'un bilan","cout-bilan-patrimonial"),("Bilan gratuit","bilan-patrimonial-gratuit"),("Droits de succession","droits-de-succession"),("Donation ou succession","donation-ou-succession"),("Preparer la transmission","preparer-transmission-parents"),("Avance sur heritage","avance-sur-heritage"),("Abattement donation","abattement-donation"),("Simulation donation","simulation-donation"),("Assurance-vie","assurance-vie-succession"),("Delai 15 ans","delai-entre-deux-donations"),("Confidentialite","confidentialite"),("Mentions legales","mentions-legales")]
-n = 0
-for f in glob.glob('**/*.html', recursive=True):
-    c = open(f, encoding='utf-8').read()
-    if 'goatcounter' in c: continue
-    c = c.replace('Transmettre<span>Clair</span>', 'Legae')
-    c = c.replace('TransmettreClair', 'Legae')
-    c = c.replace('Transmission<span>Claire</span>', 'Legae')
-    c = c.replace('TransmissionClaire', 'Legae')
-    is_sub = ('/' in f)
-    href = '../#acces-lead' if is_sub else '#acces-lead'
-    home = '../' if is_sub else ''
-    pre = '../' if is_sub else ''
-    banner = STICKY_CSS + '<div class="sticky-cta"><p>Simulez la transmission du patrimoine de vos parents, gratuitement.</p><a href="' + href + '">Evaluer nos scenarios</a></div>'
-    links = ' &nbsp; '.join('<a href="' + pre + slug + '">' + label + '</a>' for label, slug in LINKS)
-    nav_new = '<nav><a class="brand" href="' + home + '">Legae</a><div>' + links + '</div></nav>'
-    c = re.sub(r'<nav>.*?</nav>', lambda m: nav_new, c, count=1, flags=re.S)
-    c = c.replace('</head>', TAG + BRAND_CSS + '<meta name="google-site-verification" content="W1BkDTyuR8Aio8dikiiq4zATNTa0jc4Xy_sAzYJLcQA" />' + '\n' + '</head>', 1)
-    c = c.replace('</body>', banner + TRACK + '</body>', 1)
-    open(f, 'w', encoding='utf-8').write(c)
-    n += 1
-    print('injected', f)
-lines = ['INJECTION OK', 'fichiers modifies: ' + str(n), 'genere: ' + datetime.datetime.utcnow().isoformat()]
-open('buildinfo.txt','w').write(chr(10).join(lines))
+          import glob, datetime, re
+          TAG = '<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap" rel="stylesheet">\n<style>.brand{font-family:"Caveat",cursive;font-size:30px;font-weight:600;letter-spacing:.5px;},.brand span{color:var(--accent);}</style>\n<script data-goatcounter="https://transmission-patrimoine.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>'
+          TRACK = '''<script>
+          (function(){
+          var origFetch = window.fetch ? window.fetch.bind(window) : null;
+          if(!origFetch){return;}
+          window.fetch = function(url, opts){
+          try{
+          var u = (typeof url==='string') ? url : ((url && url.url) || '');
+          var isPost = opts && opts.method && opts.method.toUpperCase()==='POST';
+          var bodyStr = (opts && typeof opts.body==='string') ? opts.body : '';
+          var isLeadPage = (u==='.'||u===''||u==='/'||u===window.location.href);
+          if(isPost && isLeadPage && bodyStr.indexOf('form-name=lead')>-1){
+          var params = new URLSearchParams(bodyStr);
+          var payload = {'access_key':'aa5b9764-7b8d-4bdb-acc6-8a46493adb39', 'subject':'Nouveau lead - Legae <legae.fr>'};
+          params.forEach(function(v,k){
+          if(k!=='form-name' && k!=='bot-field' && v!==''){ payload[k]=v; }
+          });
+          payload.page = window.location.href;
+          if(window.goatcounter && window.goatcounter.count){ window.goatcounter.count({path:'formulaire-envoye',event:true}); }
+          return origFetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(payload)})
+          .then(function(r){
+          if(!r.ok){ throw new Error('envoi lead refuse'); }
+          return r;
+          });
+          }
+          }catch(e){}
+          return origFetch.apply(null,arguments);
+          };
+          })();
+          </script>'''
+          STICKY_CSS = '<style>body{padding-bottom:74px}.sticky-cta{position:fixed;left:0;right:0;bottom:0;z-index:60;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;gap:18px;padding:12px 16px;flex-wrap:wrap;box-shadow:0 -6px 20px rgba(26,36,51,.35)}.sticky-cta p{margin:0;font-size:14.5px;color:#e8ecf3}.sticky-cta a{display:inline-block;background:var(--accent);color:#fff;padding:9px 20px;border-radius:6px;text-decoration:none;font-weight:600;font-size:14.5px;white-space:nowrap}.sticky-cta a:hover{filter:brightness(1.15)}</style>'
+          BRAND_CSS = '<style>a.brand{text-decoration:none;color:inherit}header nav{flex-wrap:wrap}header nav div{flex-wrap:wrap}</style>'
+          LINKS = [("Accueil",""),("Bilan patrimonial","bilan-patrimonial"),("Prix d'un bilan","cout-bilan-patrimonial"),("Bilan gratuit","bilan-patrimonial-gratuit"),("Droits de succession","droits-de-succession"),("Donation ou succession","donation-ou-succession"),("Preparer la transmission","preparer-transmission-parents"),("Avance sur heritage","avance-sur-heritage"),("Abattement donation","abattement-donation"),("Simulation donation","simulation-donation"),("Assurance-vie","assurance-vie-succession"),("Delai 15 ans","delai-entre-deux-donations"),("Confidentialite","confidentialite"),("Mentions legales","mentions-legales")]
+          n = 0
+          for f in glob.glob('**/*.html', recursive=True):
+              c = open(f, encoding='utf-8').read()
+              if 'goatcounter' in c: continue
+              c = c.replace('Transmettre<span>Clair</span>', 'Legae')
+              c = c.replace('TransmettreClair', 'Legae')
+              c = c.replace('Transmission<span>Claire</span>', 'Legae')
+              c = c.replace('TransmissionClaire', 'Legae')
+              is_sub = ('/' in f)
+              href = '../#acces-lead' if is_sub else '#acces-lead'
+              home = '../' if is_sub else ''
+              pre = '../' if is_sub else ''
+              banner = STICKY_CSS + '<div class="sticky-cta"><p>Simulez la transmission du patrimoine de vos parents, gratuitement.</p><a href="' + href + '">Evaluer nos scenarios</a></div>'
+              links = ' &nbsp; '.join('<a href="' + pre + slug + '">' + label + '</a>' for label, slug in LINKS)
+              nav_new = '<nav><a class="brand" href="' + home + '">Legae</a><div>' + links + '</div></nav>'
+              c = re.sub(r'<nav>.*?</nav>', lambda m: nav_new, c, count=1, flags=re.S)
+              c = c.replace('</head>', TAG + BRAND_CSS + '<meta name="google-site-verification" content="W1BkDTyuR8Aio8dikiiq4zATNTa0jc4Xy_sAzYJLcQA" />' + '\n' + '</head>', 1)
+              c = c.replace('</body>', banner + TRACK + '</body>', 1)
+              open(f, 'w', encoding='utf-8').write(c)
+              n += 1
+              print('injected', f)
+          lines = ['INJECTION OK', 'fichiers modifies: ' + str(n), 'genere: ' + datetime.datetime.utcnow().isoformat()]
+          open('buildinfo.txt','w').write(chr(10).join(lines))
           PY
           touch .nojekyll
       - uses: actions/upload-pages-artifact@v3
