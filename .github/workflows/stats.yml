@@ -8,6 +8,8 @@ on:
     - cron: '0 6 * * *'
   workflow_dispatch:
 
+# relance manuelle suite a echec du run planifie du 27/11
+
 permissions:
   contents: write
 
